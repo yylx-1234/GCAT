@@ -1,0 +1,29 @@
+dataset:
+  name: Brandenburg
+  num_classes: 9
+model:
+  name: gcat_rp_t
+training:
+  seed: 42
+  batch_size: 128
+  epochs: 50
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  max_class_weight: 5.0
+  early_stopping_patience: 8
+  scheduler_factor: 0.5
+  scheduler_patience: 3
+  amp: false
+  selection_metric: mean_validation_macro_f1_over_7_checkpoints
+data:
+  root: ./datasets/Brandenburg
+  splits:
+    train: ./datasets/Brandenburg/splits/train2018.csv
+    val: ./datasets/Brandenburg/splits/val2018.csv
+    calibration: ./datasets/Brandenburg/splits/calibration2018.csv
+    test: ./datasets/Brandenburg/splits/test2019.csv
+  s2_stats: ./datasets/Brandenburg/cache/normalization/brandenburg_train2018_stats.json
+  s1_stats: ./datasets/Brandenburg/cache/normalization/brandenburg_s1_log1p_stats.json
+  expected_counts: {train: 1769, val: 380, calibration: 385, test: 2064}
+  num_workers: 0
+output_root: ./runs/brandenburg_2018

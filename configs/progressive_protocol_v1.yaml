@@ -1,0 +1,15 @@
+protocol:
+  checkpoints:
+    - {name: Apr30, cutoff: 2019-04-30}
+    - {name: May31, cutoff: 2019-05-31}
+    - {name: Jun30, cutoff: 2019-06-30}
+    - {name: Jul31, cutoff: 2019-07-31}
+    - {name: Aug31, cutoff: 2019-08-31}
+    - {name: Sep30, cutoff: 2019-09-30}
+    - {name: FullSeason, cutoff: null}
+training:
+  prefix_sampling: uniform_per_sample_over_all_7_checkpoints
+  validation_checkpoints: all_7_fixed
+  interpolation: false
+  temporal_alignment: false
+  cloud_timestep_filtering: false

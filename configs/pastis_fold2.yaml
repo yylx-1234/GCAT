@@ -1,0 +1,54 @@
+seed: 42
+dataset:
+  name: PASTIS-R
+  root: ./datasets/PASTIS-R
+  cache_root: ./cache/parcel_mean_std
+  num_classes: 18
+  use_official_folds: true
+  s2_bands: 10
+  s1_channels: 3
+  parcel_stat: mean_std
+  source_class_ids: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+  background_label: 0
+  void_label: 19
+model:
+  name: gcat_rp_t
+  s2_input_dim: 20
+  s1_input_dim: 6
+  projection_dim: 128
+  hidden_dim: 128
+  gru_layers: 1
+  bidirectional: false
+  attention: {embed_dim: 128, num_heads: 4, dropout: 0.1}
+  gate: {type: complementary_channel, input_dim: 256, output_dim: 128}
+  fusion_dropout: 0.2
+  num_classes: 18
+training:
+  batch_size: 128
+  epochs: 50
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  max_class_weight: 5.0
+  early_stopping_patience: 8
+  scheduler_factor: 0.5
+  scheduler_patience: 3
+  amp: false
+  selection_metric: mean_val_macro_f1_over_7_checkpoints
+data:
+  protocol: ./configs/progressive_protocol_v1.yaml
+  cache_root: ./cache/parcel_mean_std
+  quality_root: ./cache/parcel_quality
+  train_folds: [3, 4, 5]
+  dev_source_fold: 1
+  test_folds: [2]
+  split_manifests:
+    train: ./splits/fold2_train.csv
+    val: ./splits/fold2_val.csv
+    cal_a: ./splits/fold2_cal_a.csv
+    cal_b: ./splits/fold2_cal_b.csv
+    test: ./splits/fold2_test.csv
+  expected_counts: {train: 51163, val: 8610, cal_a: 4358, cal_b: 4261, test: 17559}
+  modalities: [s2, s1a, s1d]
+  num_workers: 0
+  patch_cache_size: 2500
+output_root: ./runs/pastis_fold2
